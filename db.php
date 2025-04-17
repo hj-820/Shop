@@ -1,8 +1,8 @@
 <?php
-$host = "your-rds-endpoint.amazonaws.com";
-$dbname = "ecommerce";
+$host = "shopdb.csbwsu7vetpu.us-east-1.rds.amazonaws.com";
+$dbname = "shop";
 $username = "admin";
-$password = "yourpassword";
+$password = "password";
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
