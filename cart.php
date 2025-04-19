@@ -50,7 +50,14 @@ $stmt = $conn->prepare("
     WHERE gc.guest_id = ?
 ");
 $stmt->execute([$guest_id]);
-
+if ($stmt->rowCount() > 0) {
+    echo "Found items in cart."; // Debugging line
+    while ($item = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Your code to display items
+    }
+} else {
+    echo "<p>Your cart is empty.</p>";
+}
 // Check if the cart has any items
 if ($stmt->rowCount() > 0) {
     $total = 0;
