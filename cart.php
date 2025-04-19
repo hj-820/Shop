@@ -1,18 +1,26 @@
-<?php
-session_start();
-include 'db.php';
-include 'header.php';
 
-if (!isset($_SESSION['cart'])) $_SESSION['cart'] = [];
+<?php
 
 if ($_GET['action'] == 'add') {
     $id = $_GET['id'];
-    $_SESSION['cart'][$id] = ($_SESSION['cart'][$id] ?? 0) + 1;
+
+    // Check if product already in guest cart
+    $stmt = $conn->prepare("SELECT * FROM guest_carts WHERE guest_id=? AND product_id=?");
+    $stmt->execute([$guest_id, $id]);
+
+    if ($stmt->rowCount() > 0) {
+        $conn->prepare("UPDATE guest_carts SET quantity = quantity + 1 WHERE guest_id=? AND product_id=?")
+             ->execute([$guest_id, $id]);
+    } else {
+        $conn->prepare("INSERT INTO guest_carts (guest_id, product_id, quantity) VALUES (?, ?, 1)")
+             ->execute([$guest_id, $id]);
+    }
 }
 
 if ($_GET['action'] == 'remove') {
     $id = $_GET['id'];
-    unset($_SESSION['cart'][$id]);
+    $conn->prepare("DELETE FROM guest_carts WHERE guest_id=? AND product_id=?")
+         ->execute([$guest_id, $id]);
 }
 ?>
 <!DOCTYPE html>
@@ -23,15 +31,21 @@ if ($_GET['action'] == 'remove') {
 <body>
 <h2>Your Shopping Cart</h2>
 <?php
+$stmt = $conn->prepare("
+    SELECT p.*, gc.quantity 
+    FROM guest_carts gc 
+    JOIN products p ON gc.product_id = p.id 
+    WHERE guest_id=?
+");
+$stmt->execute([$guest_id]);
+$items = $stmt->fetchAll();
+
 $total = 0;
-foreach ($_SESSION['cart'] as $id => $qty) {
-    $stmt = $conn->prepare("SELECT * FROM products WHERE id=?");
-    $stmt->execute([$id]);
-    $item = $stmt->fetch(PDO::FETCH_ASSOC);
-    $sub = $item['price'] * $qty;
+foreach ($items as $item) {
+    $sub = $item['price'] * $item['quantity'];
     $total += $sub;
-    echo "<p>{$item['name']} x $qty = RM $sub 
-          <a href='cart.php?action=remove&id=$id'>Remove</a></p>";
+    echo "<p>{$item['name']} x {$item['quantity']} = RM $sub 
+          <a href='cart.php?action=remove&id={$item['id']}'>Remove</a></p>";
 }
 echo "<h3>Total: RM $total</h3>";
 ?>
