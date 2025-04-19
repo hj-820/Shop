@@ -129,6 +129,11 @@ body {
     width: 250px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Pushes content to top & button to bottom */
+    height: 100%; /* Or fixed height like 400px if needed */
 }
 
 .product-img {
