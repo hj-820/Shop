@@ -1,5 +1,4 @@
 <?php
-include 'db.php';
 
 // Generate or get existing guest ID
 if (!isset($_COOKIE['guest_id'])) {
@@ -9,6 +8,7 @@ if (!isset($_COOKIE['guest_id'])) {
     $guest_id = $_COOKIE['guest_id'];
 }
 
+include 'db.php';
 include 'header.php';
 
 if (isset($_GET['action']) && $_GET['action'] == 'add') {
