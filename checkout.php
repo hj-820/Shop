@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
 
                 echo "
                 <div class='cart-item'>
-                    <img src='{$product['img']}' alt='{$product['name']}'>
+                    <img src='{$product['img_url']}' alt='{$product['name']}'>
                     <div class='item-details'>
                         <strong>{$product['name']}</strong><br>
                         RM {$product['price']} x $qty = <strong>RM $sub</strong>
