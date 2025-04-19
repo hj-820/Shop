@@ -1,4 +1,5 @@
 <?php include 'db.php'; ?>
+<?php include 'header.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,6 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
           </div>";
 }
 ?>
-<a href="cart.php">View Cart</a>
+<?php include 'footer.php'; ?>
 </body>
 </html>
