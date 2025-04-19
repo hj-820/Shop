@@ -35,19 +35,18 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             <img src='{$row['img_url']}' alt='{$row['name']}' class='product-img'>
             <h3>{$row['name']}</h3>
             <p class='price'>RM {$row['price']}</p>
-            <<ul class='desc'>
-            <?php
+            <ul class='desc'>";
+            
             foreach (explode("\n", $row['description']) as $line) {
-            echo "<li>" . htmlspecialchars(trim($line)) . "</li>";
+                echo "<li>" . htmlspecialchars(trim($line)) . "</li>";
             }
-            ?>
-            </ul>
+
+    echo "</ul>
             <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}'>Add to Cart</a>
           </div>";
 }
 ?>
 </div>
-
 <?php include 'footer.php'; ?>
 </body>
 </html>
