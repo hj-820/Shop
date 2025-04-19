@@ -1,12 +1,9 @@
 <?php
-$host = "shop-db.csbwsu7vetpu.us-east-1.rds.amazonaws.com";
-$dbname = "shop";
-$username = "admin";
-$password = "password";
+$config = include 'db_config.php';
+
 
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    // Enable PDO error mode
+    $conn = new PDO("mysql:host={$config['host']};dbname={$config['dbname']}", $config['username'], $config['password']);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     echo "Database connection failed: " . $e->getMessage();
