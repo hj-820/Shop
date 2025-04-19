@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Graduation Shop</title>
+    <title>GradElite Graduation Shop</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
