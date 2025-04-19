@@ -48,6 +48,7 @@
 .nav-right a {
     color: white;
     background-color: #0073e6;
+    margin-right: 50px;
 }
 
 .nav-left a:hover {
