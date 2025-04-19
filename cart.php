@@ -1,4 +1,5 @@
-
+<?php include 'db.php'; ?>
+<?php include 'header.php'; ?>
 <?php
 
 if ($_GET['action'] == 'add') {
