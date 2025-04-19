@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'db.php';
+include 'header.php';
 
 if (!isset($_SESSION['cart'])) $_SESSION['cart'] = [];
 
@@ -35,5 +36,6 @@ foreach ($_SESSION['cart'] as $id => $qty) {
 echo "<h3>Total: RM $total</h3>";
 ?>
 <a href="checkout.php">Checkout</a> | <a href="index.php">Continue Shopping</a>
+<?php include 'footer.php'; ?>
 </body>
 </html>
