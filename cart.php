@@ -26,6 +26,10 @@ if ($action === 'add' && $product_id && $product_type) {
         $conn->prepare("INSERT INTO guest_carts (guest_id, product_id, product_type, quantity) VALUES (?, ?, ?, 1)")
              ->execute([$guest_id, $product_id, $product_type]);
     }
+
+    // Redirect to remove query parameters
+    header("Location: cart.php");
+    exit;
 }
 
 // Remove product from cart
