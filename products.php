@@ -20,7 +20,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             <h3>{$row['name']}</h3>
             <p class='price'>RM {$row['price']}</p>
             <p class='desc'>{$row['description']}</p>
-            <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}'>Add to Cart</a>
+            <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}&type=flowers'>Add to Cart</a>
           </div>";
 }
 ?>
@@ -42,7 +42,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             }
 
     echo "</ul>
-            <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}'>Add to Cart</a>
+            <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}&type=photos'>Add to Cart</a>
           </div>";
 }
 ?>
@@ -58,7 +58,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             <h3>{$row['name']}</h3>
             <p class='price'>RM {$row['price']}</p>
             <p class='desc'>{$row['description']}</p>
-            <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}'>Add to Cart</a>
+            <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}&type=bears'>Add to Cart</a>
           </div>";
 }
 ?>
