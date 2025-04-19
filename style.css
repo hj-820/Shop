@@ -83,6 +83,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
     margin: 0; /* Adds space outside the body (all 4 sides) */
+    padding-top: 130px;
     padding: 0; /* Adds space inside the body */
 }
 
