@@ -76,7 +76,7 @@ if (count($cartItems) > 0) {
 }
 ?>
 
-<a href="checkout.php">Checkout</a> | <a href="index.php">Continue Shopping</a>
+<a href="checkout.php">Checkout</a> | <a href="products.php">Continue Shopping</a>
 <?php include 'footer.php'; ?>
 </body>
 </html>
