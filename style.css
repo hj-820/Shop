@@ -43,7 +43,7 @@ body {
 
 .content-wrapper {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 20 auto;
     padding: 30px 40px; /* Adjust padding inside the main content */
     background-color: #ffffff;
     border-radius: 8px;
