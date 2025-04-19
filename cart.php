@@ -1,22 +1,19 @@
+<?php include 'db.php'; ?>
+<?php include 'header.php'; ?>
 <?php
-ob_start(); // Allow setting cookies
-session_start();
-include 'db.php';
-include 'header.php';
 
-// Generate or retrieve guest_id
-if (!isset($_COOKIE['guest_id'])) {
-    $guest_id = uniqid('guest_', true);
-    setcookie('guest_id', $guest_id, time() + (86400 * 30), "/"); // 30 days
-} else {
-    $guest_id = $_COOKIE['guest_id'];
+// Ensure guest_id is correctly set in the session or cookies
+$guest_id = $_COOKIE['guest_id'] ?? null;
+if (!$guest_id) {
+    echo "No guest ID found. Please try again.";
+    exit;
 }
 
-// Handle Add to Cart
-if (isset($_GET['action']) && $_GET['action'] == 'add' && isset($_GET['id'])) {
+// Add product to cart
+if ($_GET['action'] == 'add') {
     $id = $_GET['id'];
 
-    // Check if item already in cart
+    // Check if product already in guest cart
     $stmt = $conn->prepare("SELECT * FROM guest_carts WHERE guest_id=? AND product_id=?");
     $stmt->execute([$guest_id, $id]);
 
@@ -27,38 +24,25 @@ if (isset($_GET['action']) && $_GET['action'] == 'add' && isset($_GET['id'])) {
         $conn->prepare("INSERT INTO guest_carts (guest_id, product_id, quantity) VALUES (?, ?, 1)")
              ->execute([$guest_id, $id]);
     }
-
-    // Redirect to avoid resubmission
-    header("Location: cart.php");
-    exit();
 }
 
-// Handle Remove from Cart
-if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
+// Remove product from cart
+if ($_GET['action'] == 'remove') {
     $id = $_GET['id'];
     $conn->prepare("DELETE FROM guest_carts WHERE guest_id=? AND product_id=?")
          ->execute([$guest_id, $id]);
-
-    // Redirect to avoid resubmission
-    header("Location: cart.php");
-    exit();
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Your Cart</title>
-    <style>
-        body { font-family: Arial; padding: 20px; }
-        .cart-item { margin-bottom: 10px; }
-        .cart-item a { color: red; text-decoration: none; margin-left: 10px; }
-        .total { font-weight: bold; margin-top: 20px; }
-    </style>
 </head>
 <body>
 <h2>Your Shopping Cart</h2>
 <?php
-// Fetch guest cart items
+// Fetch the items in the guest's cart
 $stmt = $conn->prepare("
     SELECT p.*, gc.quantity 
     FROM guest_carts gc 
@@ -66,15 +50,25 @@ $stmt = $conn->prepare("
     WHERE gc.guest_id = ?
 ");
 $stmt->execute([$guest_id]);
-$items = $stmt->fetchAll();
 
-if (!$items) {
-    echo "<p>No items found in your cart.</p>";
+// Check if the cart has any items
+if ($stmt->rowCount() > 0) {
+    $total = 0;
+
+    // Loop through each product in the cart
+    while ($item = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $sub = $item['price'] * $item['quantity'];
+        $total += $sub;
+
+        // Display each product in the cart
+        echo "<p>{$item['name']} x {$item['quantity']} = RM $sub 
+              <a href='cart.php?action=remove&id={$item['product_id']}'>Remove</a></p>";
+    }
+    echo "<h3>Total: RM $total</h3>";
 } else {
-    var_dump($items); // This will show you the data returned from the database
+    echo "<p>Your cart is empty.</p>";
 }
 ?>
-<br>
 <a href="checkout.php">Checkout</a> | <a href="index.php">Continue Shopping</a>
 <?php include 'footer.php'; ?>
 </body>
