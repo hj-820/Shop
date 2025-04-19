@@ -1,4 +1,4 @@
-<?
+<?php
 if (!isset($_COOKIE['guest_id'])) {
     $guest_id = uniqid('guest_', true);
     setcookie('guest_id', $guest_id, time() + (86400 * 30), "/"); // 30 days
@@ -6,6 +6,7 @@ if (!isset($_COOKIE['guest_id'])) {
     $guest_id = $_COOKIE['guest_id'];
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>
