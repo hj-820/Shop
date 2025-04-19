@@ -9,21 +9,31 @@
     border-bottom: 2px solid #ccc;
 }
 
-.logo h1 {
-    margin: 0;
-    font-size: 1.8em;
-    color: #333;
+.logo-bar {
+    background-color: #343a40;
+    color: white;
+    padding: 20px 30px;
+    text-align: left;
 }
 
+.logo-bar h1 {
+    margin: 0;
+    font-size: 1.8em;
+}
+
+/* Navigation Bar */
 .navbar {
     display: flex;
     justify-content: space-between;
-    width: 60%;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 12px 30px;
+    border-bottom: 2px solid #ccc;
 }
 
 .nav-left a,
 .nav-right a {
-    margin: 0 12px;
+    margin: 0 10px;
     text-decoration: none;
     font-weight: 500;
     padding: 6px 12px;
@@ -37,7 +47,7 @@
 }
 
 .nav-right a {
-    color: #ffffff;
+    color: white;
     background-color: #0073e6;
 }
 
