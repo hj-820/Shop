@@ -1,17 +1,52 @@
 
 
-header {
-    background-color: #343a40;
-    color: white;
-    padding: 20px;
-    text-align: center;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    background-color: #f4f4f4;
+    border-bottom: 2px solid #ccc;
 }
 
+.logo h1 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #333;
+}
 
-header nav a {
-    color: white;
-    margin: 0 15px;
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+
+.nav-left a,
+.nav-right a {
+    margin: 0 12px;
     text-decoration: none;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-left a {
+    color: #004080;
+    background-color: #e6f0ff;
+}
+
+.nav-right a {
+    color: #ffffff;
+    background-color: #0073e6;
+}
+
+.nav-left a:hover {
+    background-color: #cce0ff;
+}
+
+.nav-right a:hover {
+    background-color: #005bb5;
 }
 
 main {
