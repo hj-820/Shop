@@ -1,5 +1,5 @@
 <?php
-$host = "shopdb.csbwsu7vetpu.us-east-1.rds.amazonaws.com";
+$host = "shop-db.csbwsu7vetpu.us-east-1.rds.amazonaws.com";
 $dbname = "shop";
 $username = "admin";
 $password = "password";
