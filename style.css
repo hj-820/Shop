@@ -61,7 +61,7 @@ body {
 .product-container {
     display: flex;
     flex-wrap: wrap;
-    margin:20 20 20 20; 
+    margin:20px; 
     gap: 20px;
     justify-content: flex-start;
 }
