@@ -1,21 +1,22 @@
 <?php
-ob_start(); // Start output buffering to allow setting cookies
+ob_start(); // Allow setting cookies
 session_start();
+include 'db.php';
+include 'header.php';
 
-// Generate or get existing guest ID
+// Generate or retrieve guest_id
 if (!isset($_COOKIE['guest_id'])) {
     $guest_id = uniqid('guest_', true);
-    setcookie('guest_id', $guest_id, time() + (86400 * 30), "/"); // valid 30 days
+    setcookie('guest_id', $guest_id, time() + (86400 * 30), "/"); // 30 days
 } else {
     $guest_id = $_COOKIE['guest_id'];
 }
 
-include 'db.php';
-include 'header.php';
-
-if (isset($_GET['action']) && $_GET['action'] == 'add') {
+// Handle Add to Cart
+if (isset($_GET['action']) && $_GET['action'] == 'add' && isset($_GET['id'])) {
     $id = $_GET['id'];
 
+    // Check if item already in cart
     $stmt = $conn->prepare("SELECT * FROM guest_carts WHERE guest_id=? AND product_id=?");
     $stmt->execute([$guest_id, $id]);
 
@@ -26,54 +27,62 @@ if (isset($_GET['action']) && $_GET['action'] == 'add') {
         $conn->prepare("INSERT INTO guest_carts (guest_id, product_id, quantity) VALUES (?, ?, 1)")
              ->execute([$guest_id, $id]);
     }
+
+    // Redirect to avoid resubmission
+    header("Location: cart.php");
+    exit();
 }
 
-if (isset($_GET['action']) && $_GET['action'] == 'remove') {
+// Handle Remove from Cart
+if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
     $id = $_GET['id'];
     $conn->prepare("DELETE FROM guest_carts WHERE guest_id=? AND product_id=?")
          ->execute([$guest_id, $id]);
+
+    // Redirect to avoid resubmission
+    header("Location: cart.php");
+    exit();
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Your Cart</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .cart-item { margin-bottom: 10px; }
+        .cart-item a { color: red; text-decoration: none; margin-left: 10px; }
+        .total { font-weight: bold; margin-top: 20px; }
+    </style>
 </head>
 <body>
 <h2>Your Shopping Cart</h2>
 <?php
+// Fetch guest cart items
 $stmt = $conn->prepare("
     SELECT p.*, gc.quantity 
     FROM guest_carts gc 
     JOIN products p ON gc.product_id = p.id 
-    WHERE guest_id=?
+    WHERE gc.guest_id = ?
 ");
-
-$guest_id = $_COOKIE['guest_id'] ?? null;
-
-if (!$guest_id) {
-    echo "<p>Guest ID not found.</p>";
-} else {
-    echo "<p>Your Guest ID: $guest_id</p>";
-}
-
 $stmt->execute([$guest_id]);
 $items = $stmt->fetchAll();
 
-$total = 0;
-if ($items) {
+if (count($items) === 0) {
+    echo "<p>Your cart is empty.</p>";
+} else {
+    $total = 0;
     foreach ($items as $item) {
         $sub = $item['price'] * $item['quantity'];
         $total += $sub;
-        echo "<p>{$item['name']} x {$item['quantity']} = RM $sub 
-              <a href='cart.php?action=remove&id={$item['id']}'>Remove</a></p>";
+        echo "<div class='cart-item'>{$item['name']} x {$item['quantity']} = RM {$sub}
+              <a href='cart.php?action=remove&id={$item['id']}'>Remove</a></div>";
     }
-    echo "<h3>Total: RM $total</h3>";
-    echo '<a href="checkout.php">Checkout</a> | <a href="index.php">Continue Shopping</a>';
-} else {
-    echo "<p>Your cart is empty.</p>";
+    echo "<div class='total'>Total: RM $total</div>";
 }
 ?>
+<br>
+<a href="checkout.php">Checkout</a> | <a href="index.php">Continue Shopping</a>
 <?php include 'footer.php'; ?>
 </body>
 </html>
