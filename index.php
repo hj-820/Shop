@@ -51,7 +51,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     <h3 style="margin-left: 40px;">Graduation Bears</h3>
 <div class="product-container">
 <?php
-$stmt = $conn->query("SELECT * FROM bearss");
+$stmt = $conn->query("SELECT * FROM bears");
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo "<div class='product-box'>
             <img src='{$row['img_url']}' alt='{$row['name']}' class='product-img'>
