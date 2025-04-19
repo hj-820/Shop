@@ -1,3 +1,12 @@
+<?php include 'header.php'; ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GradElite Graduation Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
 <div class="about-section">
     <h2>About GradElite Graduation Shop</h2>
     <p>
@@ -31,3 +40,7 @@
         Thank you for letting us be part of your journey. Here’s to your next chapter – with style, pride, and joy! 🎓
     </p>
 </div>
+
+    <?php include 'footer.php'; ?>
+</body>
+</html>
