@@ -21,6 +21,19 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}'>Add to Cart</a>
           </div>";
 }
+<h3 style="margin-left: 40px;">Graduation Photo Package</h3>
+<div class="product-container">
+<?php
+$stmt = $conn->query("SELECT * FROM photos");
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    echo "<div class='product-box'>
+            <img src='{$row['img_url']}' alt='{$row['name']}' class='product-img'>
+            <h3>{$row['name']}</h3>
+            <p class='price'>RM {$row['price']}</p>
+            <p class='desc'>{$row['description']}</p>
+            <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}'>Add to Cart</a>
+          </div>";
+}
 ?>
 </div>
 <?php include 'footer.php'; ?>
