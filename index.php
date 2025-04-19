@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <h1 style="margin-left: 20px;">Graduation Products</h1>
+
 <h3 style="margin-left: 40px;">Graduation Flower Bouquet</h3>
 <div class="product-container">
 <?php
@@ -21,6 +23,9 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}'>Add to Cart</a>
           </div>";
 }
+?>
+</div>
+
 <h3 style="margin-left: 40px;">Graduation Photo Package</h3>
 <div class="product-container">
 <?php
@@ -36,6 +41,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 }
 ?>
 </div>
+
 <?php include 'footer.php'; ?>
 </body>
 </html>
