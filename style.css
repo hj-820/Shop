@@ -9,6 +9,8 @@
     top: 0;
     width: 100%;
     z-index: 1000;
+    margin-bottom: 0;     /* Make sure no margin at bottom */
+    border-bottom: none;  /* Optional: remove if not using */
 }
 
 .logo-bar h1 {
