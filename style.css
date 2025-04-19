@@ -13,6 +13,14 @@
     border-bottom: none;  /* Optional: remove if not using */
 }
 
+.logo-bar {
+    border-bottom: 2px solid red;
+}
+.navbar {
+    border-top: 2px solid blue;
+}
+
+
 .logo-bar h1 {
     margin: 0;
     font-size: 1.8em;
