@@ -26,7 +26,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 ?>
 </div>
 
-<h3 style="margin-left: 40px;">Graduation Photo Package</h3>
+<h3 style="margin-left: 90px;">Graduation Photo Package</h3>
 <div class="product-container">
 <?php
 $stmt = $conn->query("SELECT * FROM photos");
@@ -48,7 +48,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 ?>
 </div>
 
-    <h3 style="margin-left: 40px;">Graduation Bears</h3>
+    <h3 style="margin-left: 90px;">Graduation Bears</h3>
 <div class="product-container">
 <?php
 $stmt = $conn->query("SELECT * FROM bears");
