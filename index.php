@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1 style="margin-left: 20px;">Graduation Products</h1>
+<h2 style="margin-left: 30px;">Graduation Flower Bouquest</h2>
 <div class="product-container">
 <?php
 $stmt = $conn->query("SELECT * FROM products");
