@@ -1,4 +1,6 @@
 <?php
+ob_start(); // Start output buffering to allow setting cookies
+session_start();
 
 // Generate or get existing guest ID
 if (!isset($_COOKIE['guest_id'])) {
