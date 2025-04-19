@@ -11,7 +11,7 @@
 <h3 style="margin-left: 40px;">Graduation Flower Bouquet</h3>
 <div class="product-container">
 <?php
-$stmt = $conn->query("SELECT * FROM products");
+$stmt = $conn->query("SELECT * FROM flowers");
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo "<div class='product-box'>
             <img src='{$row['img_url']}' alt='{$row['name']}' class='product-img'>
