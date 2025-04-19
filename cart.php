@@ -1,42 +1,40 @@
 <?php include 'db.php'; ?>
 <?php include 'header.php'; ?>
-<?php
 
-// Ensure guest_id is correctly set in the session or cookies
+<?php
+// Ensure guest_id is correctly set in the cookie
 $guest_id = $_COOKIE['guest_id'] ?? null;
 if (!$guest_id) {
-    echo "No guest ID found. Please try again.";
-    exit;
+    $guest_id = uniqid('guest_', true);
+    setcookie('guest_id', $guest_id, time() + (86400 * 30), "/"); // valid for 30 days
 }
 
-// Add product to cart
-if ($_GET['action'] == 'add') {
-    $id = $_GET['id'];
+// Get product info from URL
+$action = $_GET['action'] ?? '';
+$product_id = $_GET['id'] ?? '';
+$product_type = $_GET['type'] ?? ''; // must pass ?type=flowers|bears|photos
 
-    // Check if product already in guest cart
-    $stmt = $conn->prepare("SELECT * FROM guest_carts WHERE guest_id=? AND product_id=?");
-    $stmt->execute([$guest_id, $id]);
+// Add product to cart
+if ($action === 'add' && $product_id && $product_type) {
+    $stmt = $conn->prepare("SELECT * FROM guest_carts WHERE guest_id=? AND product_id=? AND product_type=?");
+    $stmt->execute([$guest_id, $product_id, $product_type]);
 
     if ($stmt->rowCount() > 0) {
-        $conn->prepare("UPDATE guest_carts SET quantity = quantity + 1 WHERE guest_id=? AND product_id=?")
-             ->execute([$guest_id, $id]);
+        $conn->prepare("UPDATE guest_carts SET quantity = quantity + 1 WHERE guest_id=? AND product_id=? AND product_type=?")
+             ->execute([$guest_id, $product_id, $product_type]);
     } else {
-        $conn->prepare("INSERT INTO guest_carts (guest_id, product_id, quantity) VALUES (?, ?, 1)")
-             ->execute([$guest_id, $id]);
+        $conn->prepare("INSERT INTO guest_carts (guest_id, product_id, product_type, quantity) VALUES (?, ?, ?, 1)")
+             ->execute([$guest_id, $product_id, $product_type]);
     }
 }
 
 // Remove product from cart
-if ($_GET['action'] == 'remove') {
-    $id = $_GET['id'];
-    $conn->prepare("DELETE FROM guest_carts WHERE guest_id=? AND product_id=?")
-         ->execute([$guest_id, $id]);
+if ($action === 'remove' && $product_id && $product_type) {
+    $conn->prepare("DELETE FROM guest_carts WHERE guest_id=? AND product_id=? AND product_type=?")
+         ->execute([$guest_id, $product_id, $product_type]);
 }
 ?>
-<?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,41 +42,40 @@ error_reporting(E_ALL);
 </head>
 <body>
 <h2>Your Shopping Cart</h2>
+
 <?php
-// Fetch the items in the guest's cart
-$stmt = $conn->prepare("
-    SELECT p.*, gc.quantity 
-    FROM guest_carts gc 
-    JOIN products p ON gc.product_id = p.id 
-    WHERE gc.guest_id = ?
-");
+$stmt = $conn->prepare("SELECT * FROM guest_carts WHERE guest_id = ?");
 $stmt->execute([$guest_id]);
-if ($stmt->rowCount() > 0) {
-    echo "Found items in cart."; // Debugging line
-    while ($item = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        // Your code to display items
-    }
-} else {
-    echo "<p>Your cart is empty.</p>";
-}
-// Check if the cart has any items
-if ($stmt->rowCount() > 0) {
+$cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if (count($cartItems) > 0) {
     $total = 0;
 
-    // Loop through each product in the cart
-    while ($item = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $sub = $item['price'] * $item['quantity'];
-        $total += $sub;
+    foreach ($cartItems as $item) {
+        $type = $item['product_type'];
+        $pid = $item['product_id'];
+        $qty = $item['quantity'];
 
-        // Display each product in the cart
-        echo "<p>{$item['name']} x {$item['quantity']} = RM $sub 
-              <a href='cart.php?action=remove&id={$item['product_id']}'>Remove</a></p>";
+        // Dynamically fetch from the correct table
+        $productStmt = $conn->prepare("SELECT * FROM `$type` WHERE id = ?");
+        $productStmt->execute([$pid]);
+        $product = $productStmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($product) {
+            $sub = $product['price'] * $qty;
+            $total += $sub;
+
+            echo "<p>{$product['name']} x $qty = RM $sub 
+                  <a href='cart.php?action=remove&id=$pid&type=$type'>Remove</a></p>";
+        }
     }
+
     echo "<h3>Total: RM $total</h3>";
 } else {
     echo "<p>Your cart is empty.</p>";
 }
 ?>
+
 <a href="checkout.php">Checkout</a> | <a href="index.php">Continue Shopping</a>
 <?php include 'footer.php'; ?>
 </body>
