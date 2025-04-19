@@ -7,6 +7,11 @@ header {
     text-align: center;
 }
 
+h1{
+    margin-right: 20px;
+
+}
+
 header nav a {
     color: white;
     margin: 0 15px;
