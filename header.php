@@ -6,7 +6,7 @@
 </head>
 <body>
     <header>
-        <h1>🎓 Graduation Shop</h1>
+        <h1>🎓 GradElite Graduation Shop</h1>
         <nav>
             <a href="index.php">Home</a>
             <a href="cart.php">View Cart</a>
