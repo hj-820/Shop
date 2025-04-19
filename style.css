@@ -329,3 +329,38 @@ body {
             border-radius: 8px;
             font-size: 16px;
         }
+
+        form {
+            margin-top: 30px;
+        }
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        label {
+            font-weight: bold;
+        }
+        .payment-options {
+            margin-bottom: 20px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .buttons button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .cancel {
+            background: #ccc;
+        }
+        .place {
+            background: #28a745;
+            color: white;
+        }
