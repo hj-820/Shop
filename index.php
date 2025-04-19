@@ -1,4 +1,3 @@
-<?php include 'db.php'; ?>
 <?php include 'header.php'; ?>
 <!DOCTYPE html>
 <html>
@@ -7,61 +6,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<h1 style="margin-left: 20px;">Graduation Products</h1>
-
-<h3 style="margin-left: 40px;">Graduation Flower Bouquet</h3>
-<div class="product-container">
-<?php
-$stmt = $conn->query("SELECT * FROM flowers");
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    echo "<div class='product-box'>
-            <img src='{$row['img_url']}' alt='{$row['name']}' class='product-img'>
-            <h3>{$row['name']}</h3>
-            <p class='price'>RM {$row['price']}</p>
-            <p class='desc'>{$row['description']}</p>
-            <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}'>Add to Cart</a>
-          </div>";
-}
-?>
-</div>
-
-<h3 style="margin-left: 40px;">Graduation Photo Package</h3>
-<div class="product-container">
-<?php
-$stmt = $conn->query("SELECT * FROM photos");
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    echo "<div class='product-box'>
-            <img src='{$row['img_url']}' alt='{$row['name']}' class='product-img'>
-            <h3>{$row['name']}</h3>
-            <p class='price'>RM {$row['price']}</p>
-            <ul class='desc'>";
-            
-            foreach (explode("\n", $row['description']) as $line) {
-                echo "<li>" . htmlspecialchars(trim($line)) . "</li>";
-            }
-
-    echo "</ul>
-            <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}'>Add to Cart</a>
-          </div>";
-}
-?>
-</div>
-
-    <h3 style="margin-left: 40px;">Graduation Bears</h3>
-<div class="product-container">
-<?php
-$stmt = $conn->query("SELECT * FROM bears");
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    echo "<div class='product-box'>
-            <img src='{$row['img_url']}' alt='{$row['name']}' class='product-img'>
-            <h3>{$row['name']}</h3>
-            <p class='price'>RM {$row['price']}</p>
-            <p class='desc'>{$row['description']}</p>
-            <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}'>Add to Cart</a>
-          </div>";
-}
-?>
+<div class="hero-section">
+    <img src="https://www.studentemploymentservices.co.uk/storage/2015/03/graduate-uni-jobs.jpg" alt="Graduation Celebration" class="hero-img">
+    <div class="hero-content">
+        <p class="hero-text">
+            Graduation is more than a ceremony — it's a milestone that celebrates years of hard work, determination, and growth. 
+            It marks the beginning of a new journey filled with opportunities and dreams waiting to be fulfilled. 
+            Celebrate this proud moment with something memorable.
+        </p>
+        <a href="products.php" class="browse-btn">🎓 Browse Graduation Products Now!</a>
+    </div>
 </div>
 <?php include 'footer.php'; ?>
 </body>
