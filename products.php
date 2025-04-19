@@ -8,9 +8,9 @@
 </head>
 <body>
 
-<h1 style="margin-left: 20px;">Graduation Products</h1>
+<h1 style="margin-left: 70px;">Graduation Products</h1>
 
-<h3 style="margin-left: 40px;">Graduation Flower Bouquet</h3>
+<h3 style="margin-left: 90px;">Graduation Flower Bouquet</h3>
 <div class="product-container">
 <?php
 $stmt = $conn->query("SELECT * FROM flowers");
