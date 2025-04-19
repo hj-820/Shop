@@ -35,7 +35,13 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             <img src='{$row['img_url']}' alt='{$row['name']}' class='product-img'>
             <h3>{$row['name']}</h3>
             <p class='price'>RM {$row['price']}</p>
-            <p class='desc'>{$row['description']}</p>
+            <<ul class='desc'>
+            <?php
+            foreach (explode("\n", $row['description']) as $line) {
+            echo "<li>" . htmlspecialchars(trim($line)) . "</li>";
+            }
+            ?>
+            </ul>
             <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}'>Add to Cart</a>
           </div>";
 }
