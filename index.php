@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Graduation Products</h1>
+<h1 style=margin-left 20px>Graduation Products</h1>
 <div class="product-container">
 <?php
 $stmt = $conn->query("SELECT * FROM products");
