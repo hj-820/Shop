@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="header">
-        <div class="logo">
+    <header>
+        <div class="logo-bar">
             <h1>🎓 GradElite Graduation Shop</h1>
         </div>
         <div class="navbar">
