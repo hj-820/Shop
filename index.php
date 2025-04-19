@@ -8,16 +8,20 @@
 </head>
 <body>
 <h1>Graduation Products</h1>
+<div class="product-container">
 <?php
 $stmt = $conn->query("SELECT * FROM products");
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    echo "<div class='product'>
+    echo "<div class='product-box'>
+            <img src='{$row['img_url']}' alt='{$row['name']}' class='product-img'>
             <h3>{$row['name']}</h3>
-            <p>RM {$row['price']}</p>
-            <a href='cart.php?action=add&id={$row['id']}'>Add to Cart</a>
+            <p class='price'>RM {$row['price']}</p>
+            <p class='desc'>{$row['description']}</p>
+            <a class='add-to-cart' href='cart.php?action=add&id={$row['id']}'>Add to Cart</a>
           </div>";
 }
 ?>
+</div>
 <?php include 'footer.php'; ?>
 </body>
 </html>
