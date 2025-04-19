@@ -48,6 +48,15 @@ $stmt = $conn->prepare("
     JOIN products p ON gc.product_id = p.id 
     WHERE guest_id=?
 ");
+
+$guest_id = $_COOKIE['guest_id'] ?? null;
+
+if (!$guest_id) {
+    echo "<p>Guest ID not found.</p>";
+} else {
+    echo "<p>Your Guest ID: $guest_id</p>";
+}
+
 $stmt->execute([$guest_id]);
 $items = $stmt->fetchAll();
 
