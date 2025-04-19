@@ -107,3 +107,12 @@ body {
 .add-to-cart:hover {
     background-color: #45a049;
 }
+.desc {
+    padding-left: 20px;
+    color: #666;
+    font-size: 14px;
+    margin: 10px 0;
+}
+.desc li {
+    margin-bottom: 4px;
+}
