@@ -176,7 +176,7 @@ if ($action === 'decrease') {
                 $total += $sub;
                 echo "
                 <div class='cart-item'>
-                    <img src='{$product['img']}' alt='{$product['name']}'>
+                    <img src='{$product['img_url']}' alt='{$product['name']}'>
                     <div class='cart-item-details'>
                         <strong>{$product['name']}</strong><br>
                         RM {$product['price']} each
