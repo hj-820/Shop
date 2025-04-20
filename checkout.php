@@ -76,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
 <html>
 <head>
     <title>Checkout</title>
+     <link rel="stylesheet" href="style.css">
     <style>
         h2 {
             text-align: center;
