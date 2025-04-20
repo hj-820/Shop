@@ -20,13 +20,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
 
     // (Optional) Save to an orders table here
 
-    // Delete guest cart
+ $stmt = $conn->prepare("SELECT * FROM guest_carts WHERE guest_id = ?");
+    $stmt->execute([$guest_id]);
+    $cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Display order summary
+    echo "<div class='order-summary'>";
+    echo "<h2>Thank you for your purchase, " . htmlspecialchars($name) . "!</h2>";
+    echo "<h3>Order Summary:</h3>";
+
+    $total = 0;
+    echo "<div class='order-items'>";
+    foreach ($cartItems as $item) {
+        $type = $item['product_type'];
+        $pid = $item['product_id'];
+        $qty = $item['quantity'];
+
+        $productStmt = $conn->prepare("SELECT * FROM `$type` WHERE id = ?");
+        $productStmt->execute([$pid]);
+        $product = $productStmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($product) {
+            $sub = $product['price'] * $qty;
+            $total += $sub;
+
+            echo "<div class='order-item'>
+                    <strong>" . htmlspecialchars($product['name']) . "</strong><br>
+                    RM {$product['price']} x $qty = <strong>RM $sub</strong>
+                  </div>";
+        }
+    }
+    echo "</div>";
+    echo "<h3>Total Purchase: RM $total</h3>";
+
+    echo "<h3>Customer Details:</h3>";
+    echo "<p><strong>Name:</strong> " . htmlspecialchars($name) . "</p>";
+    echo "<p><strong>Phone:</strong> " . htmlspecialchars($phone) . "</p>";
+    echo "<p><strong>Email:</strong> " . htmlspecialchars($email) . "</p>";
+    echo "<p><strong>Address:</strong> " . nl2br(htmlspecialchars($address)) . "</p>";
+    echo "<p><strong>Payment Method:</strong> " . htmlspecialchars($payment) . "</p>";
+
+    echo "<a class='back-to-shop' href='products.php'>Back to Shop</a>";
+    echo "</div>";
+
+    // Delete cart
     $stmt = $conn->prepare("DELETE FROM guest_carts WHERE guest_id = ?");
     $stmt->execute([$guest_id]);
-
-    echo "<h2>Thank you for your purchase, $name!</h2>";
-    echo "<p>Your order has been placed.</p>";
-    echo "<a href='products.php'>Back to Shop</a>";
 
     include 'footer.php';
     exit;
