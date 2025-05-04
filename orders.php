@@ -1,4 +1,4 @@
-<?php
+s<?php
 include 'db.php';
 include 'header.php';
 
@@ -110,7 +110,7 @@ $orders = $orderStmt->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($items as $item):
                     // Try to find the product from all known product tables
                     $product = null;
-                    $tables = ['equipment', 'apparel', 'accessories']; // Add your actual table names here
+                    $tables = ['flowers', 'photos', 'bears']; // Add your actual table names here
 
                     foreach ($tables as $table) {
                         $stmt = $conn->prepare("SELECT * FROM `$table` WHERE id = ?");
