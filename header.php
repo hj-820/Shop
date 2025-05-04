@@ -15,7 +15,7 @@ $has_payment = false;
 try {
     $stmt = $conn->prepare("
         SELECT 1 
-          FROM payment 
+          FROM orders 
          WHERE guest_id = :guest_id 
          LIMIT 1
     ");
