@@ -98,7 +98,10 @@ $orders = $orderStmt->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach ($orders as $order): ?>
             <div class="order-card">
                 <div class="order-header">
-                    <span>Order ID: <?= $order['order_id'] ?></span>
+                    <div>
+                        <div>Order ID: <?= $order['order_id'] ?></div>
+                        <div>Payment Method: <?= htmlspecialchars($order['payment_method']) ?></div>
+                    </div>
                     <span><?= date('d M Y, H:i', strtotime($order['order_date'])) ?></span>
                 </div>
 
