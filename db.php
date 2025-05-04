@@ -1,8 +1,8 @@
 <?php
 $host = 'shopdb.csbwsu7vetpu.us-east-1.rds.amazonaws.com';
 $dbname = 'shop';
-$username = getenv('DB_USER');
-$password = getenv('DB_PASS');
+$username = 'admiin';
+$password = 'password';
 
 // Force TCP/IP connection by adding host and port explicitly
 $dsn = "mysql:host=$host;port=3306;dbname=$dbname";
