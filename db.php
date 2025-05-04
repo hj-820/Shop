@@ -1,6 +1,6 @@
 <?php
-$host = getenv('shopdb.csbwsu7vetpu.us-east-1.rds.amazonaws.com');
-$dbname = getenv('shop');
+$host = 'shopdb.csbwsu7vetpu.us-east-1.rds.amazonaws.com';
+$dbname = 'shop';
 $username = getenv('DB_USER');
 $password = getenv('DB_PASS');
 
