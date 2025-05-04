@@ -1,4 +1,4 @@
-s<?php
+<?php
 include 'db.php';
 include 'header.php';
 
@@ -42,6 +42,12 @@ $orders = $orderStmt->fetchAll(PDO::FETCH_ASSOC);
             font-weight: bold;
             margin-bottom: 15px;
             color: #333;
+        }
+
+        .customer-info {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #444;
         }
 
         .item {
@@ -105,15 +111,21 @@ $orders = $orderStmt->fetchAll(PDO::FETCH_ASSOC);
                     <span><?= date('d M Y, H:i', strtotime($order['order_date'])) ?></span>
                 </div>
 
+                <div class="customer-info">
+                    <div><strong>Name:</strong> <?= htmlspecialchars($order['customer_name']) ?></div>
+                    <div><strong>Phone:</strong> <?= htmlspecialchars($order['customer_phone']) ?></div>
+                    <div><strong>Email:</strong> <?= htmlspecialchars($order['customer_email']) ?></div>
+                    <div><strong>Shipping Address:</strong> <?= nl2br(htmlspecialchars($order['shipping_address'])) ?></div>
+                </div>
+
                 <?php
                 $itemStmt = $conn->prepare("SELECT * FROM order_items WHERE order_id = ?");
                 $itemStmt->execute([$order['order_id']]);
                 $items = $itemStmt->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($items as $item):
-                    // Try to find the product from all known product tables
                     $product = null;
-                    $tables = ['flowers', 'photos', 'bears']; // Add your actual table names here
+                    $tables = ['flowers', 'photos', 'bears'];
 
                     foreach ($tables as $table) {
                         $stmt = $conn->prepare("SELECT * FROM `$table` WHERE id = ?");
