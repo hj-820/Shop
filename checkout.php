@@ -22,15 +22,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
     $address = $_POST['address'] ?? '';
     $payment = $_POST['payment'] ?? '';
 
-    $stmt = $conn->prepare("SELECT * FROM guest_carts WHERE guest_id = ?");
-    $stmt->execute([$guest_id]);
-    $cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $conn->prepare("SELECT * FROM guest_carts WHERE guest_id = ?");
+$stmt->execute([$guest_id]);
+$cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Clear the cart after order is placed
-    $stmt = $conn->prepare("DELETE FROM guest_carts WHERE guest_id = ?");
-    $stmt->execute([$guest_id]);
+// 2. Calculate total amount
+$total = 0;
+foreach ($cartItems as $item) {
+    $type = $item['product_type'];
+    $pid = $item['product_id'];
+    $qty = $item['quantity'];
 
-    $orderComplete = true;
+    $productStmt = $conn->prepare("SELECT * FROM `$type` WHERE id = ?");
+    $productStmt->execute([$pid]);
+    $product = $productStmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($product) {
+        $sub = $product['price'] * $qty;
+        $total += $sub;
+    }
+}
+
+// 3. Insert into orders table
+$orderStmt = $conn->prepare("INSERT INTO orders 
+    (guest_id, order_date, total_amount, customer_name, customer_phone, customer_email, shipping_address, payment_method) 
+    VALUES (?, NOW(), ?, ?, ?, ?, ?, ?)");
+$orderStmt->execute([
+    $guest_id,
+    $total,
+    $name,
+    $phone,
+    $email,
+    $address,
+    $payment
+]);
+
+// 4. Get the last inserted order_id
+$order_id = $conn->lastInsertId();
+
+// 5. Insert into order_items table
+foreach ($cartItems as $item) {
+    $type = $item['product_type'];
+    $pid = $item['product_id'];
+    $qty = $item['quantity'];
+
+    $productStmt = $conn->prepare("SELECT * FROM `$type` WHERE id = ?");
+    $productStmt->execute([$pid]);
+    $product = $productStmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($product) {
+        $unit_price = $product['price'];
+        $itemStmt = $conn->prepare("INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)");
+        $itemStmt->execute([$order_id, $pid, $qty, $unit_price]);
+    }
+}
+
+// 6. Clear the cart
+$stmt = $conn->prepare("DELETE FROM guest_carts WHERE guest_id = ?");
+$stmt->execute([$guest_id]);
+
+$orderComplete = true;
 }
 ?>
 
