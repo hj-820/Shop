@@ -1,7 +1,7 @@
 <?php
 $host = 'shopdb.csbwsu7vetpu.us-east-1.rds.amazonaws.com';
 $dbname = 'shop';
-$username = 'admiin';
+$username = 'admin';
 $password = 'password';
 
 // Force TCP/IP connection by adding host and port explicitly
