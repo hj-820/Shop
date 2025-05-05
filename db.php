@@ -5,8 +5,6 @@ $username = getenv('DB_USER');
 $password = getenv('DB_PASS');
 
 
-var_dump($host, $dbname, $username, $password); 
-
 $dsn = "mysql:host=$host;port=3306;dbname=$dbname";
 
 try {
